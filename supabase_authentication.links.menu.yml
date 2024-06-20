@@ -1,0 +1,6 @@
+supabase_authentication.settings:
+  title: 'Supabase Authentication Settings'
+  description: 'Configure Supabase API settings for authentication.'
+  parent: system.admin_config_services
+  route_name: supabase_authentication.settings_form
+  weight: 100

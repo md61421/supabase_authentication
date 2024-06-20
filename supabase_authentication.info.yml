@@ -1,10 +1,7 @@
-name: Supabase Authentication
+name: 'Supabase Authentication'
 type: module
-description: Authenticates requests using Supabase and Drupal.
-core_version_requirement: ^10 || ^9
-package: Web services
-
-# Information added by Drupal.org packaging script on 2024-06-12
-version: '1.0.0'
-project: 'supabase_authentication'
-datestamp: 1718203200
+description: 'Integrates Supabase Authentication with Drupal 10.'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - drupal:user

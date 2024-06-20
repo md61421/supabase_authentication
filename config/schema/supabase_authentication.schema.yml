@@ -1,0 +1,10 @@
+supabase_authentication.settings:
+  type: config_object
+  label: 'Supabase Authentication Settings'
+  mapping:
+    supabase_url:
+      type: string
+      label: 'Supabase URL'
+    supabase_key:
+      type: string
+      label: 'Supabase API Key'
