@@ -29,6 +29,7 @@ class SupabaseAuthSettingsForm extends ConfigFormBase {
       '#title' => $this->t('Project API Key (service_role)'),
       '#default_value' => $config->get('supabase_key'),
       '#required' => TRUE,
+      '#maxlength' => 256, // Adjust the maximum length as needed
     ];
 
     return parent::buildForm($form, $form_state);
