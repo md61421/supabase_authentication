@@ -1,0 +1,4 @@
+services:
+  supabase_authentication.supabase:
+    class: 'Drupal\supabase_authentication\SupabaseService'
+    arguments: ['@config.factory']

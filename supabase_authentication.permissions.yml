@@ -1,4 +1,0 @@
-'administer supabase authentication':
-  title: 'Administer Supabase Authentication'
-  description: 'Manage Supabase authentication settings and user permissions.'
-  restrict access: TRUE

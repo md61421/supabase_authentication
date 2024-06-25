@@ -1,6 +1,6 @@
 name: 'Supabase Authentication'
 type: module
-description: 'Integrates Supabase Authentication with Drupal 10.'
+description: 'Integrates Drupal with Supabase for user authentication.'
 core_version_requirement: ^10
 package: Custom
 dependencies:

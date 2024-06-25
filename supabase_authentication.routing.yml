@@ -1,23 +1,9 @@
-supabase_authentication.login_form:
-  path: '/supabase-authentication/login'
+supabase_authentication.config_form:
+  path: '/admin/config/system/supabase_authentication'
   defaults:
-    _form: 'Drupal\supabase_authentication\Form\SupabaseLoginForm'
-    _title: 'Supabase Login Form'
-  requirements:
-    _permission: 'access content'
-    
-supabase_authentication.register_form:
-  path: '/supabase-authentication/register'
-  defaults:
-    _form: 'Drupal\supabase_authentication\Form\SupabaseRegisterForm'
-    _title: 'Supabase Registration Form'
-  requirements:
-    _permission: 'access content'
-
-supabase_authentication.settings_form:
-  path: '/admin/config/services/supabase-authentication'
-  defaults:
-    _form: 'Drupal\supabase_authentication\Form\SupabaseAuthSettingsForm'
+    _form: '\Drupal\supabase_authentication\Form\SupabaseAuthSettingsForm'
     _title: 'Supabase Authentication Settings'
   requirements:
-    _permission: 'administer supabase authentication'
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE
