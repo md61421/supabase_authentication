@@ -20,14 +20,14 @@ class SupabaseAuthSettingsForm extends ConfigFormBase {
 
     $form['url'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Supabase URL'),
+      '#title' => $this->t('Project URL'),
       '#default_value' => $config->get('url'),
       '#required' => TRUE,
     ];
     
     $form['api_key'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Supabase API Key'),
+      '#title' => $this->t('Project API Key (service_role)'),
       '#default_value' => $config->get('api_key'),
       '#required' => TRUE,
       '#maxlength' => 256,
