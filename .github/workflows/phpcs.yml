@@ -1,0 +1,31 @@
+name: PHPCS Lint
+
+on: [push, pull_request]
+
+jobs:
+  phpcs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup PHP Action
+      uses: shivammathur/setup-php@2.31.0
+      with:
+        php-version: '8.2.19'
+        tools: composer
+
+    - name: Configure Composer
+      run: composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
+
+    - name: Install PHPCS
+      run: composer global require "squizlabs/php_codesniffer=*"
+
+    - name: Install Drupal coding standards
+      run: |
+        composer global require drupal/coder
+        ~/.composer/vendor/bin/phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer
+
+    - name: Run PHPCS
+      run: ~/.composer/vendor/bin/phpcs --standard=Drupal --extensions=php,module,inc,install,test,profile,theme web/modules/custom
