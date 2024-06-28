@@ -19,13 +19,14 @@ jobs:
     - name: Configure Composer
       run: composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
 
-    - name: Install PHPCS
-      run: composer global require "squizlabs/php_codesniffer=*"
-
-    - name: Install Drupal coding standards
+    - name: Install PHPCS and coding standards
       run: |
+        composer global require "squizlabs/php_codesniffer=*"
         composer global require drupal/coder
-        ~/.composer/vendor/bin/phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer
+        composer global require slevomat/coding-standard
+
+    - name: Configure PHPCS
+      run: ~/.composer/vendor/bin/phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer,$HOME/.composer/vendor/slevomat/coding-standard
 
     - name: Run PHPCS
-      run: ~/.composer/vendor/bin/phpcs --standard=Drupal --extensions=php,module,inc,install,test,profile,theme web/modules/custom
+      run: ~/.composer/vendor/bin/phpcs --standard=Drupal --extensions=php,module,inc,install,test,profile,theme .
