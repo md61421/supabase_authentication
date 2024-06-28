@@ -1,12 +1,17 @@
 <?php
 
+/**
+ * @file
+ * Contains the supabase_authentication module hooks.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\user\Entity\User;
-use Drupal\Core\Password\PasswordGenerator;
 
 /**
  * Implements hook_help().
  */
-function supabase_authentication_help($route_name, \Drupal\Core\Routing\RouteMatchInterface $route_match) {
+function supabase_authentication_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     case 'help.page.supabase_authentication':
       return '<p>' . t('This module integrates Drupal with Supabase for user authentication.') . '</p>';
@@ -20,27 +25,32 @@ function supabase_authentication_user_insert(User $user) {
   $supabase_service = \Drupal::service('supabase_authentication.supabase');
   $password_generator = \Drupal::service('password_generator');
   $email = $user->getEmail();
-  $password = $password_generator->generate();  // Generate a random password
 
-  // Create user in Supabase
+  // Generate a random password.
+  $password = $password_generator->generate();
+
+  // Create user in Supabase.
   $supabase_response = $supabase_service->createUser($email, $password);
   if (isset($supabase_response->id)) {
-    \Drupal::logger('supabase_authentication')->notice('User @email created in Supabase.', ['@email' => $email]);
-  } else {
-    \Drupal::logger('supabase_authentication')->error('Failed to create user @email in Supabase: @error', [
-      '@email' => $email,
+    \Drupal::logger('supabase_authentication')->notice('User @username created in Supabase.', ['@username' => $email]);
+  }
+  else {
+    \Drupal::logger('supabase_authentication')->error('Failed to create user @username in Supabase: @error', [
+      '@username' => $email,
       '@error' => print_r($supabase_response, TRUE),
     ]);
   }
 
-  // Sign in the user to get the access token (optional)
+  // Sign in the user to get the access token (optional).
   $supabase_auth = $supabase_service->signInUser($email, $password);
   if (isset($supabase_auth->access_token)) {
-    \Drupal::logger('supabase_authentication')->notice('User @email authenticated with Supabase.', ['@email' => $email]);
-  } else {
-    \Drupal::logger('supabase_authentication')->error('Failed to authenticate user @email with Supabase: @error', [
-      '@email' => $email,
+    \Drupal::logger('supabase_authentication')->notice('User @username authenticated with Supabase.', ['@username' => $email]);
+  }
+  else {
+    \Drupal::logger('supabase_authentication')->error('Failed to authenticate user @username with Supabase: @error', [
+      '@username' => $email,
       '@error' => print_r($supabase_auth, TRUE),
     ]);
   }
 }
+
