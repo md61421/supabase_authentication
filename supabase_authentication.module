@@ -7,6 +7,8 @@
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\user\Entity\User;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_help().
@@ -54,3 +56,31 @@ function supabase_authentication_user_insert(User $user) {
   }
 }
 
+/**
+ * Implements hook_install().
+ */
+function supabase_authentication_install() {
+  // Set "Who can register accounts?" field to "Visitors" and Untick "Require email verification when a visitor creates an account".
+  $config = \Drupal::configFactory()->getEditable('user.settings');
+  $config->set('register', 'visitors')
+    ->set('verify_mail', FALSE)
+    ->save();
+
+  // Load the form display configuration for the user entity.
+  $form_display = EntityFormDisplay::load('user.user.default');
+
+  // Check if form display is loaded successfully.
+  if ($form_display) {
+    $components = $form_display->getComponents();
+
+    // Loop through components and disable all fields except "Username and password" (account).
+    foreach ($components as $field_name => $component) {
+      if ($field_name !== 'account') {
+        $form_display->removeComponent($field_name);
+      }
+    }
+
+    // Save the updated form display configuration.
+    $form_display->save();
+  }
+}
