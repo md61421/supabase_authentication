@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the supabase_auth module.
+ */
+
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
+
+/**
+ * Implements hook_install().
+ */
+function supabase_authentication_install() {
+  // Set "Who can register accounts?" field to "Visitors" and untick
+  // "Require email verification when a visitor creates an account".
+  $config = \Drupal::configFactory()->getEditable('user.settings');
+  $config->set('register', 'visitors')
+    ->set('verify_mail', FALSE)
+    ->save();
+
+  // Load the form display configuration for the user entity.
+  $form_display = EntityFormDisplay::load('user.user.default');
+
+  // Check if form display is loaded successfully.
+  if ($form_display) {
+    $components = $form_display->getComponents();
+
+    // Loop through components and disable all fields except "Username and
+    // password" (account).
+    foreach ($components as $field_name => $component) {
+      if ($field_name !== 'account') {
+        $form_display->removeComponent($field_name);
+      }
+    }
+
+    // Save the updated form display configuration.
+    $form_display->save();
+  }
+}

@@ -2,9 +2,10 @@
   "name": "drupal/supabase_authentication",
   "description": "Custom module to integrate Supabase with Drupal 10 for user authentication.",
   "type": "drupal-module",
-  "keywords": ["Drupal", "Firebase", "Authentication"],
+  "keywords": ["Drupal", "Supabase", "Authentication"],
   "require": {
-    "rafaelwendel/phpsupabase": "^0.0.7"
+    "rafaelwendel/phpsupabase": "^0.0.7",
+    "drupal/email_registration": "^1.0"
   },
   "autoload": {
     "psr-4": {

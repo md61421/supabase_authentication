@@ -32,25 +32,34 @@ function supabase_authentication_user_insert(User $user) {
   // Create user in Supabase.
   $supabase_response = $supabase_service->createUser($email, $password);
   if (isset($supabase_response->id)) {
-    \Drupal::logger('supabase_authentication')->notice('User @username created in Supabase.', ['@username' => $email]);
+    \Drupal::logger('supabase_authentication')->notice(
+      'User @username created in Supabase.',
+      ['@username' => $email]
+    );
   }
   else {
-    \Drupal::logger('supabase_authentication')->error('Failed to create user @username in Supabase: @error', [
-      '@username' => $email,
-      '@error' => print_r($supabase_response, TRUE),
-    ]);
+    \Drupal::logger('supabase_authentication')->error(
+      'Failed to create user @username in Supabase: @error', [
+        '@username' => $email,
+        '@error' => print_r($supabase_response, TRUE),
+      ]
+    );
   }
 
   // Sign in the user to get the access token (optional).
   $supabase_auth = $supabase_service->signInUser($email, $password);
   if (isset($supabase_auth->access_token)) {
-    \Drupal::logger('supabase_authentication')->notice('User @username authenticated with Supabase.', ['@username' => $email]);
+    \Drupal::logger('supabase_authentication')->notice(
+      'User @username authenticated with Supabase.',
+      ['@username' => $email]
+    );
   }
   else {
-    \Drupal::logger('supabase_authentication')->error('Failed to authenticate user @username with Supabase: @error', [
-      '@username' => $email,
-      '@error' => print_r($supabase_auth, TRUE),
-    ]);
+    \Drupal::logger('supabase_authentication')->error(
+      'Failed to authenticate user @username with Supabase: @error', [
+        '@username' => $email,
+        '@error' => print_r($supabase_auth, TRUE),
+      ]
+    );
   }
 }
-
