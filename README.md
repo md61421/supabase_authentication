@@ -11,8 +11,9 @@ Supabase Authentication is a custom Drupal 10 module that integrates Supabase wi
 ## Requirements
 
 - Drupal 10
-- Composer
 - Supabase account
+- `rafaelwendel/phpsupabase` PHP library
+- `email_registration` Drupal module
 
 ## Installation
 
@@ -20,15 +21,25 @@ Supabase Authentication is a custom Drupal 10 module that integrates Supabase wi
     ```sh
     cd /path/to/drupal/web/modules/custom
     git clone https://github.com/md61421/supabase_authentication.git
-    ```
-
-2. **Install dependencies**:
-    ```sh
     cd supabase_authentication
-    composer install
     ```
 
-3. **Enable the module**:
+2. **Install the required PHP library**:
+    ```sh
+    composer require rafaelwendel/phpsupabase
+    ```
+
+3. **Install the `email_registration` module**:
+    ```sh
+    composer require 'drupal/email_registration'
+    ```
+
+4. **Enable the `email_registration` module**:
+    ```sh
+    drush en email_registration
+    ```
+
+5. **Enable the Supabase Authentication module**:
     ```sh
     drush en supabase_authentication
     ```
@@ -44,9 +55,9 @@ Supabase Authentication is a custom Drupal 10 module that integrates Supabase wi
     - Navigate to the project you want to use.
 
 3. **Find the API settings**:
-    - Go to the `Settings` tab in your Supabase project dashboard.
+    - Go to the `Project Settings` tab in your Supabase project dashboard.
     - Select `API` from the sidebar menu.
-    - The `Project URL` and `API Key` will be listed under the `Config` section.
+    - The `Project URL` and `API Key (service_role)` will be listed under the `Config` section.
 
 4. **Enter the configuration in Drupal**:
     - Go to `Admin > Configuration > System > Supabase Authentication Settings` in your Drupal site.
@@ -67,6 +78,3 @@ Contributions are welcome! Please open an issue or submit a pull request on the 
 ## License
 
 This project is open source and available under the MIT License.
-```
-
-Feel free to adjust any sections to better match your project's specifics or personal preferences.

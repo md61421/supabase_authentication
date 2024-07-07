@@ -5,7 +5,7 @@
   "keywords": ["Drupal", "Supabase", "Authentication"],
   "require": {
     "rafaelwendel/phpsupabase": "^0.0.7",
-    "drupal/email_registration": "^1.0"
+    "drupal/email_registration": "^1.4"
   },
   "autoload": {
     "psr-4": {
