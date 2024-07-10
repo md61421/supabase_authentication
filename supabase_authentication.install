@@ -37,3 +37,36 @@ function supabase_authentication_install() {
     $form_display->save();
   }
 }
+
+/**
+ * Implements hook_schema().
+ */
+function supabase_authentication_schema() {
+  $schema['supabase_users_field_table'] = [
+    'description' => 'Stores Supabase user email and password.',
+    'fields' => [
+      'uid' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+      ],
+      'email' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'password' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'created' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => REQUEST_TIME,
+      ],
+    ],
+    'primary key' => ['uid'],
+  ];
+
+  return $schema;
+}
