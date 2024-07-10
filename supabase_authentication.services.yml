@@ -1,4 +1,9 @@
 services:
   supabase_authentication.supabase:
     class: 'Drupal\supabase_authentication\SupabaseService'
-    arguments: ['@config.factory']
+    arguments: ['@config.factory', '@database', '@logger.channel.supabase_authentication']
+
+  logger.channel.supabase_authentication:
+    class: Drupal\Core\Logger\LoggerChannel
+    factory: ['@logger.factory', 'get']
+    arguments: ['supabase_authentication']

@@ -23,43 +23,40 @@ function supabase_authentication_help($route_name, RouteMatchInterface $route_ma
  */
 function supabase_authentication_user_insert(User $user) {
   $supabase_service = \Drupal::service('supabase_authentication.supabase');
-  $password_generator = \Drupal::service('password_generator');
   $email = $user->getEmail();
 
-  // Generate a random password.
-  $password = $password_generator->generate();
+  // Retrieve the password using the getPassword method.
+  $password = $user->getPassword();
 
   // Create user in Supabase.
   $supabase_response = $supabase_service->createUser($email, $password);
   if (isset($supabase_response->id)) {
-    \Drupal::logger('supabase_authentication')->notice(
-      'User @username created in Supabase.',
-      ['@username' => $email]
-    );
+    $supabase_service->log('notice', 'User @username created in Supabase.', [
+      '@username' => $email,
+    ]);
+
+    // Insert the user's email and password into the custom table using the
+    // service method.
+    $supabase_service->storeUserCredentials($email, $password);
   }
   else {
-    \Drupal::logger('supabase_authentication')->error(
-      'Failed to create user @username in Supabase: @error', [
-        '@username' => $email,
-        '@error' => print_r($supabase_response, TRUE),
-      ]
-    );
+    $supabase_service->log('error', 'Failed to create user @username in Supabase: @error', [
+      '@username' => $email,
+      '@error' => print_r($supabase_response, TRUE),
+    ]);
   }
 
   // Sign in the user to get the access token (optional).
   $supabase_auth = $supabase_service->signInUser($email, $password);
   if (isset($supabase_auth->access_token)) {
-    \Drupal::logger('supabase_authentication')->notice(
-      'User @username authenticated with Supabase.',
-      ['@username' => $email]
-    );
+    $supabase_service->log('notice', 'User @username authenticated with Supabase.', [
+      '@username' => $email,
+    ]);
   }
   else {
-    \Drupal::logger('supabase_authentication')->error(
-      'Failed to authenticate user @username with Supabase: @error', [
-        '@username' => $email,
-        '@error' => print_r($supabase_auth, TRUE),
-      ]
-    );
+    $supabase_service->log('error', 'Failed to authenticate user @username with Supabase: @error', [
+      '@username' => $email,
+      '@error' => print_r($supabase_auth, TRUE),
+    ]);
   }
 }
