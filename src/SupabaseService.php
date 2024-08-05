@@ -116,6 +116,9 @@ class SupabaseService {
    *   The password of the user.
    */
   public function storeUserCredentials($email, $password) {
+    // Check if the table exists and create it if it doesn't.
+    $this->checkAndCreateTable();
+
     $this->database->insert('supabase_users_field_table')
       ->fields([
         'email' => $email,
@@ -146,6 +149,39 @@ class SupabaseService {
     $schema = $this->database->schema();
     if ($schema->tableExists('supabase_users_field_table')) {
       $schema->dropTable('supabase_users_field_table');
+    }
+  }
+
+  /**
+   * Checks if the custom table exists and creates it if not.
+   */
+  protected function checkAndCreateTable() {
+    $schema = $this->database->schema();
+    if (!$schema->tableExists('supabase_users_field_table')) {
+      $schema->createTable('supabase_users_field_table', [
+        'fields' => [
+          'uid' => [
+            'type' => 'serial',
+            'not null' => TRUE,
+          ],
+          'email' => [
+            'type' => 'varchar',
+            'length' => 255,
+            'not null' => TRUE,
+          ],
+          'password' => [
+            'type' => 'varchar',
+            'length' => 255,
+            'not null' => TRUE,
+          ],
+          'created' => [
+            'type' => 'int',
+            'not null' => TRUE,
+            'default' => \Drupal::time()->getRequestTime(),
+          ],
+        ],
+        'primary key' => ['uid'],
+      ]);
     }
   }
 
