@@ -3,9 +3,9 @@
 namespace Drupal\supabase_authentication\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Drupal\user\Entity\User;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
@@ -25,24 +25,27 @@ class AuthController extends ControllerBase {
       throw new HttpException(400, 'Email and password are required.');
     }
 
-    // Assuming username is same as email
+    // Assuming username is same as email.
     $user = User::create([
       'name' => $email,
       'mail' => $email,
       'pass' => $password,
-      'status' => 1,  // Or 0 if you require email verification
+      'status' => 1,
+      // Or 0 if you require email verification.
     ]);
 
-    // Add validation or additional fields as needed
+    // Add validation or additional fields as needed.
     $user->save();
 
-    // Optionally integrate with Supabase
+    // Optionally integrate with Supabase.
     $supabase_service = \Drupal::service('supabase_authentication.supabase');
     $supabase_response = $supabase_service->createUser($email, $password);
-    
-    // Check response and handle errors
 
-    return new JsonResponse(['message' => 'User registered successfully.', 'supabase_id' => $supabase_response->id ?? '']);
+    // Check response and handle errors.
+    return new JsonResponse([
+      'message' => 'User registered successfully.',
+      'supabase_id' => $supabase_response->id ?? '',
+    ]);
   }
 
   /**
@@ -58,10 +61,12 @@ class AuthController extends ControllerBase {
     }
 
     if (\Drupal::service('user.auth')->authenticate($username, $password)) {
-      // Generate session token or similar mechanism
+      // Generate session token or similar mechanism.
       return new JsonResponse(['message' => 'User logged in successfully.']);
-    } else {
+    }
+    else {
       throw new HttpException(401, 'Invalid credentials.');
     }
   }
+
 }
