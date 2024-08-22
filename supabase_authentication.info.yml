@@ -2,7 +2,9 @@ name: 'Supabase Authentication'
 type: module
 description: 'Integrates Drupal with Supabase for user authentication.'
 core_version_requirement: ^10
-package: Custom
+package: Web services
 dependencies:
   - drupal:user
   - drupal:email_registration
+  - drupal:rest
+  - drupal:serialization
