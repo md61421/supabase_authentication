@@ -7,3 +7,21 @@ supabase_authentication.config_form:
     _permission: 'administer site configuration'
   options:
     _admin_route: TRUE
+
+supabase_authentication.register:
+  path: '/api/register'
+  defaults:
+    _controller: '\Drupal\supabase_authentication\Controller\AuthController::register'
+    _title: 'Register'
+  methods:  [POST]
+  requirements:
+    _permission: 'supabase authentication register'
+
+supabase_authentication.login:
+  path: '/api/login'
+  defaults:
+    _controller: '\Drupal\supabase_authentication\Controller\AuthController::login'
+    _title: 'Login'
+  methods:  [POST]
+  requirements:
+    _permission: 'supabase authentication login'

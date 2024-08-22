@@ -1,0 +1,7 @@
+supabase authentication register:
+  title: 'Register via Supabase Authentication API'
+  description: 'Allow users to register via the Supabase Authentication REST API.'
+
+supabase authentication login:
+  title: 'Login via Supabase Authentication API'
+  description: 'Allow users to login via the Supabase Authentication REST API.'
