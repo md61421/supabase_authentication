@@ -10,7 +10,7 @@ Supabase Authentication is a custom Drupal 10 module that integrates Supabase wi
 
 ## Requirements
 
-- Drupal 10
+- Drupal 10 or earlier
 - Supabase account
 - `rafaelwendel/phpsupabase` PHP library
 - `email_registration` Drupal module
